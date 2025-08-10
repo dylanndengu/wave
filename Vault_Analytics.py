@@ -42,13 +42,24 @@ lock_order = [
 ]
 locks_df["bucket"] = pd.Categorical(locks_df["bucket"], lock_order, ordered=True)
 
+# Use the same (sorted) dataframe for plotting AND labels
+plot_df = locks_df.sort_values("bucket").reset_index(drop=True)
+
 fig_locks = px.bar(
-    locks_df.sort_values("bucket"),
+    plot_df,
     x="share", y="bucket", orientation="h",
-    text=locks_df["share"].map(lambda x: f"{x:.1%}"),
     labels={"share": "Share of locks", "bucket": "Lock duration"},
     title="Distribution of Lock Durations"
 )
+
+# Make labels come from the bar's x value so they always match
+fig_locks.update_traces(
+    text=plot_df["share"],
+    texttemplate="%{text:.1%}",
+    textposition="outside",   # or "inside" if you prefer
+    marker_line_width=0
+)
+
 fig_locks.update_layout(xaxis_tickformat=".0%", yaxis_title="Buckets")
 st.plotly_chart(fig_locks, use_container_width=True)
 
@@ -219,6 +230,7 @@ fig.update_layout(title="Likelihood of Next Early Unlock — by Cohort (Monthly)
 
 
 st.plotly_chart(fig, use_container_width=True)
+
 
 
 
