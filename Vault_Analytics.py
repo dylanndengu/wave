@@ -109,7 +109,7 @@ st.markdown(
     "**Summary:** Most early unlocks happen in the **final month before the scheduled unlock date** — about "
     "**70%** occur **1–29 days before due date** (1–6 days ~**29%**, 7–13 days ~**17%**, 14–29 days ~**24%**). "
     "Roughly **17%** occur **30–59 days** before. **Very-early** unlocks (≥60 days before) make up about **13%** "
-    "(≥90 days ~**10%**, 60–89 days ~**2%**). Unlocks **<1 day** before due are negligible (~**0.1%**)."
+    "(≥90 days ~**10%**, 60–89 days ~**2%**). Unlocks **<1 day** before due are negligible (**0.1%**)."
     "\n\n"
     "**Action:** Have a **partial withdraw allowance** in the last **30 days** before the timed unlock so users can access a small portion without fully unlocking."
 )
@@ -259,6 +259,7 @@ fig.update_layout(title="Likelihood of Next Early Unlock — by Cohort (Monthly)
 
 
 st.plotly_chart(fig, use_container_width=True)
+
 
 
 
