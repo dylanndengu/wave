@@ -1,0 +1,9 @@
+bucket,locks
+<1 day,60
+1–6 days,8046
+7–13 days,5340
+14–29 days,4975
+30–59 days,6358
+60–89 days,2717
+90–101 days,297
+>101 days,3007

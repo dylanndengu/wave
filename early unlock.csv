@@ -1,0 +1,9 @@
+period,cohort,total_subsequent_sessions,early_unlocks_after,not_early_after,pct_early_after_frac
+2024-10-01,No prior early unlock,93,23,70,0.24731182795698925
+2024-10-01,Had prior early unlock,58,42,16,0.7241379310344828
+2024-11-01,Had prior early unlock,1116,786,330,0.7043010752688172
+2024-11-01,No prior early unlock,2035,468,1567,0.22997542997542997
+2024-12-01,No prior early unlock,2902,548,2354,0.18883528600964852
+2024-12-01,Had prior early unlock,1063,655,408,0.6161806208842897
+2025-01-01,Had prior early unlock,1199,815,384,0.6797331109257715
+2025-01-01,No prior early unlock,1845,450,1395,0.24390243902439024
