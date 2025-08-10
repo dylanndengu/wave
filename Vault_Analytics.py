@@ -1,10 +1,15 @@
 # app.py
 try:
     import plotly.express as px
+    import streamlit as st
+    import pandas as pd
+    
 except ImportError:
     import sys, subprocess
     subprocess.check_call([sys.executable, "-m", "pip", "install", "plotly>=5.24"])
     import plotly.express as px
+    import streamlit as st
+    import pandas as pd
 
 
 
@@ -213,3 +218,4 @@ fig.update_layout(title="Likelihood of Next Early Unlock — by Cohort (Monthly)
 
 
 st.plotly_chart(fig, use_container_width=True)
+
