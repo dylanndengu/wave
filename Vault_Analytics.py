@@ -63,9 +63,13 @@ fig_locks.update_traces(
 fig_locks.update_layout(xaxis_tickformat=".0%", yaxis_title="Buckets")
 st.plotly_chart(fig_locks, use_container_width=True)
 
-summary_text = (f"We see that 26% of customers who use the vault, have a lock period of 1-6 days, which is the most popular,
-follwed by 30-59, and 7-13 days.")
+top = locks_df.sort_values("share", ascending=False).head(3).reset_index(drop=True)
+b1, b2, b3 = top.loc[0], top.loc[1], top.loc[2]
 
+summary_text = (
+    f"Most popular lock duration is **{b1['bucket']}** at **{b1['share']:.0%}**, "
+    f"followed by **{b2['bucket']}** (**{b2['share']:.0%}**) and **{b3['bucket']}** (**{b3['share']:.0%}**)."
+)
 st.markdown(summary_text)
 
 # ------------------------
@@ -246,6 +250,7 @@ fig.update_layout(title="Likelihood of Next Early Unlock — by Cohort (Monthly)
 
 
 st.plotly_chart(fig, use_container_width=True)
+
 
 
 
