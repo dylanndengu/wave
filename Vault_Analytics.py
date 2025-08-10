@@ -1,7 +1,11 @@
 # app.py
-import pandas as pd
-import streamlit as st
-import plotly.express as px
+try:
+    import plotly.express as px
+except ImportError:
+    import sys, subprocess
+    subprocess.check_call([sys.executable, "-m", "pip", "install", "plotly>=5.24"])
+    import plotly.express as px
+
 
 
 st.set_page_config(page_title="Vault Analytics", layout="centered")
@@ -205,6 +209,7 @@ fig = px.line(
 fig.update_traces(textposition="top center", textfont_size=10)
 fig.update_yaxes(tickformat=".0%", range=[0, 1])
 fig.update_layout(title="Likelihood of Next Early Unlock — by Cohort (Monthly)")
+
 
 
 st.plotly_chart(fig, use_container_width=True)
