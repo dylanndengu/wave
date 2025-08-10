@@ -105,7 +105,7 @@ fig = px.bar(
     x="pct", y="bucket", color="status", orientation="h",
     text="pct_label",  # <- use the column, not a separate array
     labels={"pct": "Share of locks", "bucket": "Lock duration", "status": ""},
-    title="Percentage Unlocked Early per Bucket"
+    title="Percentage Unlocked Early per Bucket",
     category_orders={"bucket": bucket_order,
                      "status": ["Not unlocked early", "Unlocked early"]},
     color_discrete_map={"Not unlocked early": "#1f77b4",
@@ -219,6 +219,7 @@ fig.update_layout(title="Likelihood of Next Early Unlock — by Cohort (Monthly)
 
 
 st.plotly_chart(fig, use_container_width=True)
+
 
 
 
