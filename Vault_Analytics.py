@@ -66,24 +66,35 @@ st.plotly_chart(fig_locks, use_container_width=True)
 # ------------------------
 # Chart 2 — Early unlocks
 # ------------------------
+# Early unlocks — fixed labels
 early_df["share"] = early_df["unlocks"] / early_df["unlocks"].sum()
+
 early_order = [
     "<1 day early", "1–6 days early", "7–13 days early",
     "14–29 days early", "30–59 days early", "60–89 days early", "≥90 days early"
 ]
-
 early_df["bucket"] = pd.Categorical(early_df["bucket"], early_order, ordered=True)
 
+# Use one sorted df for plot + labels
+plot_df = early_df.sort_values("bucket").reset_index(drop=True)
+
 fig_early = px.bar(
-    early_df.sort_values("bucket"),
+    plot_df,
     x="share", y="bucket", orientation="h",
-    text=early_df["share"].map(lambda x: f"{x:.1%}"),
     labels={"share": "Share of early unlocks", "bucket": "Days early"},
     title="How Often Customers Unlock Before the Due Date"
 )
+
+# Labels pulled from the plotted x values so they always align
+fig_early.update_traces(
+    text=plot_df["share"],
+    texttemplate="%{text:.1%}",
+    textposition="outside",
+    marker_line_width=0
+)
+
 fig_early.update_layout(xaxis_tickformat=".0%", yaxis_title="Buckets")
 st.plotly_chart(fig_early, use_container_width=True)
-
 
 # ------------------------
 # Chart 3 — Early unlocks
@@ -230,6 +241,7 @@ fig.update_layout(title="Likelihood of Next Early Unlock — by Cohort (Monthly)
 
 
 st.plotly_chart(fig, use_container_width=True)
+
 
 
 
