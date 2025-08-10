@@ -158,6 +158,33 @@ fig.update_traces(marker_line_width=0)
 
 st.plotly_chart(fig, use_container_width=True)
 
+
+tmp = lock_with_early_df.copy()
+tmp["early_rate"] = tmp["early_unlocks"] / tmp["locks"]
+tmp = tmp.set_index("bucket")
+
+def r(b):
+    return float(tmp.loc[b, "early_rate"]) if b in tmp.index else float("nan")
+
+overall = (lock_with_early_df["early_unlocks"].sum() / lock_with_early_df["locks"].sum())
+
+summary_text = (
+    f"**Summary:** Overall, **{overall:.0%}** of locks are unlocked early. "
+    f"Rates are highest for shorter locks — **<1 day {r('<1 day'):.1%}**, "
+    f"**1–6 days {r('1–6 days'):.1%}**, **7–13 days {r('7–13 days'):.1%}** — "
+    f"and moderate for longer durations: **14–29 days {r('14–29 days'):.1%}**, "
+    f"**30–59 days {r('30–59 days'):.1%}**, **60–89 days {r('60–89 days'):.1%}**, "
+    f"**90–101 days {r('90–101 days'):.1%}**, **>101 days {r('>101 days'):.1%}**."
+)
+st.markdown(summary_text)
+
+st.markdown(
+    "**Actions:**\n"
+    "- Allow **partial withdrawals** with a fee if it is **before 14 days**.\n"
+    "- Send **auto reminders** to customers with **more than a 2-week window** about alternatives to early unlocking.\n"
+    "- **Incentivise** customers with a **period 14 days or longer** to keep funds in the vault via promotion campaigns."
+)
+
 # ------------------------
 # Chart 4 — Adoption over time
 # ------------------------
@@ -259,6 +286,7 @@ fig.update_layout(title="Likelihood of Next Early Unlock — by Cohort (Monthly)
 
 
 st.plotly_chart(fig, use_container_width=True)
+
 
 
 
