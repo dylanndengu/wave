@@ -105,6 +105,13 @@ fig_early.update_traces(
 fig_early.update_layout(xaxis_tickformat=".0%", yaxis_title="Buckets")
 st.plotly_chart(fig_early, use_container_width=True)
 
+st.markdown(
+    "**Summary:** Most early unlocks happen in the **final month before the scheduled unlock date** — about "
+    "**70%** occur **1–29 days before due date** (1–6 days ~**29%**, 7–13 days ~**17%**, 14–29 days ~**24%**). "
+    "Roughly **17%** occur **30–59 days** before. **Very-early** unlocks (≥60 days before) make up about **13%** "
+    "(≥90 days ~**10%**, 60–89 days ~**2%**). Unlocks **<1 day** before due are negligible (~**0.1%**)."
+)
+
 # ------------------------
 # Chart 3 — Early unlocks
 # ------------------------
@@ -250,6 +257,7 @@ fig.update_layout(title="Likelihood of Next Early Unlock — by Cohort (Monthly)
 
 
 st.plotly_chart(fig, use_container_width=True)
+
 
 
 
