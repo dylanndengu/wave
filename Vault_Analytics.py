@@ -16,12 +16,12 @@ except ImportError:
 st.set_page_config(page_title="Vault Analytics", layout="centered")
 st.title("🔐 Vault Analytics")
 
-CSV_PATH1 = r"C:\Users\dylan\Downloads\lock_duration.csv" 
-CSV_PATH2 = r"C:\Users\dylan\Downloads\early_unlocks.csv"
-CSV_PATH3 = r"C:\Users\dylan\Downloads\lock_duration_with_early_unlock.csv"
-CSV_PATH4 = r"C:\Users\dylan\Downloads\adoption rate_excl.csv"
-CSV_PATH5 = r"C:\Users\dylan\Downloads\hour_of_contact.csv"
-CSV_PATH6 = r"C:\Users\dylan\Downloads\early unlock.csv"
+CSV_PATH1 = r"lock_duration.csv" 
+CSV_PATH2 = r"early_unlocks.csv"
+CSV_PATH3 = r"lock_duration_with_early_unlock.csv"
+CSV_PATH4 = r"adoption rate_excl.csv"
+CSV_PATH5 = r"hour_of_contact.csv"
+CSV_PATH6 = r"early unlock.csv"
 
 @st.cache_data
 def load_data(path: str) -> pd.DataFrame:
@@ -218,4 +218,5 @@ fig.update_layout(title="Likelihood of Next Early Unlock — by Cohort (Monthly)
 
 
 st.plotly_chart(fig, use_container_width=True)
+
 
