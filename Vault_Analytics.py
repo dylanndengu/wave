@@ -219,6 +219,55 @@ fig_adopt_share_ts.update_layout(
 
 st.plotly_chart(fig_adopt_share_ts, use_container_width=True)
 
+##Summary
+
+
+adopt2 = adopt.copy()
+# Handle either IVR spelling
+adopt2["initiator"] = adopt2["initiator"].replace(
+    {"INTERACTIVE_VOICE_RESPONSE": "IVR"}
+)
+
+# Latest period snapshot
+latest = adopt2["period"].max()
+latest_df = adopt2[adopt2["period"] == latest]
+share = latest_df.groupby("initiator")["pct_frac"].sum()
+
+support = float(share.get("SUPPORT", 0))
+chatbot = float(share.get("CHATBOT", 0))
+ivr = float(share.get("IVR", 0))
+customer = float(share.get("CUSTOMER", 0))
+self_serve = chatbot + ivr
+total_latest = int(latest_df["count"].sum()) if "count" in latest_df.columns else None
+
+# Previous period (for MoM deltas), if available
+prev_periods = adopt2.loc[adopt2["period"] < latest, "period"]
+prev = prev_periods.max() if not prev_periods.empty else None
+selfserve_delta = support_delta = None
+if prev is not None:
+    prev_share = (
+        adopt2[adopt2["period"] == prev]
+        .groupby("initiator")["pct_frac"].sum()
+    )
+    prev_self = float(prev_share.get("CHATBOT", 0)) + float(prev_share.get("IVR", 0))
+    selfserve_delta = self_serve - prev_self
+    support_delta = support - float(prev_share.get("SUPPORT", 0))
+
+# Summary
+st.markdown(
+    f"**Summary ({latest:%Y-%m}):** Self-serve (Chatbot + IVR) **{self_serve:.0%}**"
+    f"{f' ({selfserve_delta:+.1%} MoM)' if selfserve_delta is not None else ''}, "
+    f"Support **{support:.0%}**"
+    f"{f' ({support_delta:+.1%} MoM)' if support_delta is not None else ''}, "
+    f"Customer **{customer:.0%}**."
+    + (f" Total unlocks **{total_latest:,}**." if total_latest is not None else "")
+    
+# Action point
+st.markdown(
+    "**Action:** Make self-serve the default **Unlock** Route users to Chatbot/IVR first and keep Support as fallback. "
+    "Set a short-term target of **≥65% self-serve share** and monitor completion rate and CSAT to ensure quality."
+)
+
 
 # ------------------------
 # Chart 5 — Hour of support contacts
@@ -286,6 +335,7 @@ fig.update_layout(title="Likelihood of Next Early Unlock — by Cohort (Monthly)
 
 
 st.plotly_chart(fig, use_container_width=True)
+
 
 
 
