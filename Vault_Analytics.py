@@ -221,7 +221,6 @@ st.plotly_chart(fig_adopt_share_ts, use_container_width=True)
 
 ##Summary
 
-
 adopt2 = adopt.copy()
 # Handle either IVR spelling
 adopt2["initiator"] = adopt2["initiator"].replace(
@@ -261,12 +260,14 @@ st.markdown(
     f"{f' ({support_delta:+.1%} MoM)' if support_delta is not None else ''}, "
     f"Customer **{customer:.0%}**."
     + (f" Total unlocks **{total_latest:,}**." if total_latest is not None else "")
-    
+)
+
 # Action point
 st.markdown(
-    "**Action:** Make self-serve the default **Unlock** Route users to Chatbot/IVR first and keep Support as fallback. "
-    "Set a short-term target of **≥65% self-serve share** and monitor completion rate and CSAT to ensure quality."
+    "**Action:** Make self-serve the default **Unlock** CTA—route users to Chatbot/IVR first and keep Support as fallback. "
+    "Set a short-term target of **≥75% self-serve share** and monitor completion rate and CSAT to ensure quality."
 )
+
 
 
 # ------------------------
@@ -335,6 +336,7 @@ fig.update_layout(title="Likelihood of Next Early Unlock — by Cohort (Monthly)
 
 
 st.plotly_chart(fig, use_container_width=True)
+
 
 
 
