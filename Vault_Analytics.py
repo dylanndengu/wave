@@ -265,7 +265,7 @@ st.markdown(
 # Action point
 st.markdown(
     "**Action:** Make self-serve the default **Unlock** CTA—route users to Chatbot/IVR first and keep Support as fallback. "
-    "Set a short-term target of **≥65% self-serve share** and monitor completion rate and CSAT to ensure quality."
+    "Set a short-term target of **≥75% self-serve share** and monitor completion rate and CSAT to ensure quality."
 )
 
 
@@ -336,6 +336,7 @@ fig.update_layout(title="Likelihood of Next Early Unlock — by Cohort (Monthly)
 
 
 st.plotly_chart(fig, use_container_width=True)
+
 
 
 
