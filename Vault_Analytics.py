@@ -293,14 +293,18 @@ fig = px.line(
 fig.update_layout(yaxis_tickformat=".0%", yaxis_range=[0, 1])
 st.plotly_chart(fig, use_container_width=True)
 
-
-# df_hour: DataFrame with columns ['hour', 'count'] for SUPPORT unlocks
-coverage = (df_hour.query("10 <= hour < 18")["count"].sum() / df_hour["count"].sum())
+coverage = (
+    hours_df.loc[(hours_df["hour_of_day"] >= 10) & (hours_df["hour_of_day"] < 18), "support_unlocks"].sum()
+    / hours_df["support_unlocks"].sum()
+)
+outside = 1 - coverage
+peak_hour = int(hours_df.loc[hours_df["support_unlocks"].idxmax(), "hour_of_day"])
 
 st.markdown(
-    f"**Summary:** Support-initiated unlocks are concentrated in daytime hours. "
-    f"The **10:00–18:00** window accounts for **{coverage:.0%}** of all support unlocks.\n\n"
-    "**Action:** Limit live support for vault unlocks to **10:00–18:00** and route off-hours requests to self-serve (Chatbot/IVR) with an emergency fallback."
+    f"**Summary:** Support-initiated unlocks are concentrated during daytime. "
+    f"The **10:00–18:00** window accounts for **{coverage:.0%}** of all support unlocks "
+    f"(peak hour ≈ **{peak_hour}:00**). Off-hours represent only **{outside:.0%}** of volume.\n\n"
+    "**Action:** Limit live support for vault unlocks to **10:00–18:00** and route off-hours to self-serve (Chatbot/IVR) with an emergency fallback."
 )
 
 
@@ -347,6 +351,7 @@ fig.update_layout(title="Likelihood of Next Early Unlock — by Cohort (Monthly)
 
 
 st.plotly_chart(fig, use_container_width=True)
+
 
 
 
