@@ -349,8 +349,46 @@ fig.update_yaxes(tickformat=".0%", range=[0, 1])
 fig.update_layout(title="Likelihood of Next Early Unlock — by Cohort (Monthly)")
 
 
-
 st.plotly_chart(fig, use_container_width=True)
+
+#  Summary + actions for Likelihood of Next Early Unlock — by Cohort
+
+df = early_unlock_df.copy()
+df["period"] = pd.to_datetime(df["period"], errors="coerce")
+df.rename(columns={"pct_early_after_frac": "pct"}, inplace=True)
+
+# Averages across months
+avg = df.groupby("cohort")["pct"].mean()
+prior_avg = float(avg.get("Had prior early unlock", float("nan")))
+none_avg  = float(avg.get("No prior early unlock", float("nan")))
+risk_mult = (prior_avg / none_avg) if (pd.notna(none_avg) and none_avg > 0) else float("nan")
+
+# Latest month snapshot
+latest = df["period"].max()
+latest_share = df[df["period"] == latest].set_index("cohort")["pct"]
+prior_latest = float(latest_share.get("Had prior early unlock", float("nan")))
+none_latest  = float(latest_share.get("No prior early unlock", float("nan")))
+
+# Ranges (min/max) for context
+rng = df.groupby("cohort")["pct"].agg(["min", "max"])
+
+st.markdown(
+    f"**Summary:** Users who **previously unlocked early** are about **{risk_mult:.1f}×** more likely "
+    f"to unlock early again (avg **{prior_avg:.0%}**) than users with **no prior early unlock** "
+    f"(avg **{none_avg:.0%}**). In **{latest:%b %Y}**, rates were **{prior_latest:.0%}** vs **{none_latest:.0%}**. "
+    f"Over the period observed, the prior-early cohort ranged **{rng.loc['Had prior early unlock','min']:.0%}–"
+    f"{rng.loc['Had prior early unlock','max']:.0%}**, while the no-prior cohort ranged **"
+    f"{rng.loc['No prior early unlock','min']:.0%}–{rng.loc['No prior early unlock','max']:.0%}**."
+)
+
+st.markdown(
+    "**Actions:**\n"
+    "- Allow **partial withdrawals** for repeat early-unlockers; apply a **fee after the first early unlock**.\n"
+    "- Send **reminders** highlighting the different ways to unlock (self-serve, extend, partial) as the next lock approaches.\n"
+    "- Offer **one free early unlock per quarter** as a grace benefit; apply fees beyond that."
+)
+
+
 
 
 
