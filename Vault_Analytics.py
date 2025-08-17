@@ -170,7 +170,7 @@ overall = (lock_with_early_df["early_unlocks"].sum() / lock_with_early_df["locks
 
 summary_text = (
     f"**Summary:** Overall, **{overall:.0%}** of locks are unlocked early. "
-    f"Rates are highest for shorter locks — **<1 day {r('<1 day'):.1%}**, "
+    f"Rates are lowest for shorter locks — **<1 day {r('<1 day'):.1%}**, "
     f"**1–6 days {r('1–6 days'):.1%}**, **7–13 days {r('7–13 days'):.1%}** — "
     f"and moderate for longer durations: **14–29 days {r('14–29 days'):.1%}**, "
     f"**30–59 days {r('30–59 days'):.1%}**, **60–89 days {r('60–89 days'):.1%}**, "
@@ -387,6 +387,7 @@ st.markdown(
     "- Send **reminders** highlighting the different ways to unlock (self-serve, extend, partial) as the next lock approaches.\n"
     "- Offer **one free early unlock per quarter** as a grace benefit; apply fees beyond that."
 )
+
 
 
 
